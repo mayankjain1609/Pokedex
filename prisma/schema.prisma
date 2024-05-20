@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model Pokemon {
+    id                String     @id @default(cuid())
+    name              String
+    types             Type[]
+    sprite            String
+    abilities         Ability[]
+    detailPageURL     String?
+    weight            Int
+    weaknesses        Weakness[]
+    number            String
+    height            Int
+    collectibles_slug String?
+    featured          String?
+    slug              String
+    ThumbnailAltText  String?
+
+    @@index([id])
+}
+
+model Type {
+    typeId    String  @id @default(cuid())
+    typeName  String
+    pokemonId String
+    pokemon   Pokemon @relation(fields: [pokemonId], references: [id])
+
+    @@unique([typeName, pokemonId])
+    @@index([typeId])
+    @@index([pokemonId])
+}
+
+model Ability {
+    abilityId   String  @id @default(cuid())
+    abilityName String
+    pokemonId   String
+    pokemon     Pokemon @relation(fields: [pokemonId], references: [id])
+
+    @@unique([abilityName, pokemonId])
+    @@index([abilityId])
+    @@index([pokemonId])
+}
+
+model Weakness {
+    weaknessId   String  @id @default(cuid())
+    weaknessName String
+    pokemonId    String
+    pokemon      Pokemon @relation(fields: [pokemonId], references: [id])
+
+    @@unique([weaknessName, pokemonId])
+    @@index([weaknessId])
+    @@index([pokemonId])
+}
