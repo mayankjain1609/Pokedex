@@ -2,24 +2,45 @@ import * as React from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
+import Chip from '@mui/material/Chip';
 import { api } from '~/trpc/react';
 import PokemonCard from './PokemonCard';
 
 export default function Tags() {
 
-  const [names , setNames] = React.useState([""]);
+  const [names , setNames] = React.useState<string[]>([]);
 
   const {data , isLoading , isError} = api.pokemon.getMultiplePokemons.useQuery({names});
+
+  let pokemonNames  = [""];
+
+  const resNames = api.pokemon.getAllPokemonNames.useQuery();
+  pokemonNames = (resNames?.data ?? []);
+  const { isLoading: isLoadingAll, isError: isErrorAll } = resNames
+
   
   return (
-    <>
+    <div className='flex flex-col'>
     <Stack spacing={3} sx={{ width: 500 }}>
       <Autocomplete
         multiple
         id="tags-outlined"
         options={pokemonNames}
+        value={names}
         onChange={(e , newValue) => setNames(newValue)}
         filterSelectedOptions
+        renderOption={(props, option) => {
+          return (
+            <li {...props} key={option}>
+              {option}
+            </li>
+          )
+        }}
+        renderTags={(tagValue, getTagProps) => {
+          return tagValue.map((option, index) => (
+            <Chip {...getTagProps({ index })} key={option} label={option} />
+          ))
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -32,12 +53,15 @@ export default function Tags() {
     </Stack>
     <div className="m-4 p-10">
       {data?.[0]?.id && data.map(card => {
-        return <PokemonCard key={card.id} data={card} />
+        const {id , ...otherProps} = card;
+        return <PokemonCard key={id} data={card} {...otherProps} />
       })}
       {isLoading && <h1>Loading ....</h1>}
       {isError && <h1>Error Phew ....</h1>}
+      {isLoadingAll && <h1>....Loading Pokemon Name ...</h1>}
+      {isErrorAll && <h1>Something went wrong with fetching pokemons ....</h1>}
     </div>
-    </>
+    </div>
   );
 }
 
@@ -70,181 +94,181 @@ export default function Tags() {
 // ]
 
 
-const pokemonNames = [
-  'Abra' ,
+// const pokemonNames = [
+//   'Abra' ,
 
-'Alakazam' ,
+// 'Alakazam' ,
 
-'Arbok' ,
+// 'Arbok' ,
 
-'Arcanine' ,
+// 'Arcanine' ,
 
-'Beedrill' ,
+// 'Beedrill' ,
 
-'Bellsprout' ,
+// 'Bellsprout' ,
 
-'Blastoise' ,
+// 'Blastoise' ,
 
-'Bulbasaur' ,
+// 'Bulbasaur' ,
 
-'Butterfree' ,
+// 'Butterfree' ,
 
-'Caterpie' ,
+// 'Caterpie' ,
 
-'Charizard' ,
+// 'Charizard' ,
 
-'Charmander' ,
+// 'Charmander' ,
 
-'Charmeleon' ,
+// 'Charmeleon' ,
 
-'Clefable' ,
+// 'Clefable' ,
 
-'Clefairy' ,
+// 'Clefairy' ,
 
-'Dewgong' ,
+// 'Dewgong' ,
 
-'Diglett' ,
+// 'Diglett' ,
 
-'Dodrio' ,
+// 'Dodrio' ,
 
-'Doduo' ,
+// 'Doduo' ,
 
-'Dugtrio' ,
+// 'Dugtrio' ,
 
-'Ekans' ,
+// 'Ekans' ,
 
-'Farfetch’d' ,
+// 'Farfetch’d' ,
 
-'Fearow' ,
+// 'Fearow' ,
 
-'Geodude' ,
+// 'Geodude' ,
 
-'Gloom' ,
+// 'Gloom' ,
 
-'Golbat' ,
+// 'Golbat' ,
 
-'Golduck' ,
+// 'Golduck' ,
 
-'Golem' ,
+// 'Golem' ,
 
-'Graveler' ,
+// 'Graveler' ,
 
-'Growlithe' ,
+// 'Growlithe' ,
 
-'Ivysaur' ,
+// 'Ivysaur' ,
 
-'Jigglypuff' ,
+// 'Jigglypuff' ,
 
-'Kadabra' ,
+// 'Kadabra' ,
 
-'Kakuna' ,
+// 'Kakuna' ,
 
-'Machamp' ,
+// 'Machamp' ,
 
-'Machoke' ,
+// 'Machoke' ,
 
-'Machop' ,
+// 'Machop' ,
 
-'Magnemite' ,
+// 'Magnemite' ,
 
-'Magneton' ,
+// 'Magneton' ,
 
-'Mankey' ,
+// 'Mankey' ,
 
-'Meowth' ,
+// 'Meowth' ,
 
-'Metapod' ,
+// 'Metapod' ,
 
-'Nidoking' ,
+// 'Nidoking' ,
 
-'Nidoqueen' ,
+// 'Nidoqueen' ,
 
-'Nidoran♀' ,
+// 'Nidoran♀' ,
 
-'Nidoran♂' ,
+// 'Nidoran♂' ,
 
-'Nidorina' ,
+// 'Nidorina' ,
 
-'Nidorino' ,
+// 'Nidorino' ,
 
-'Ninetales' ,
+// 'Ninetales' ,
 
-'Oddish' ,
+// 'Oddish' ,
 
-'Paras' ,
+// 'Paras' ,
 
-'Parasect' ,
+// 'Parasect' ,
 
-'Persian' ,
+// 'Persian' ,
 
-'Pidgeot' ,
+// 'Pidgeot' ,
 
-'Pidgeotto' ,
+// 'Pidgeotto' ,
 
-'Pidgey' ,
+// 'Pidgey' ,
 
-'Pikachu' ,
+// 'Pikachu' ,
 
-'Poliwag' ,
+// 'Poliwag' ,
 
-'Poliwhirl' ,
+// 'Poliwhirl' ,
 
-'Poliwrath' ,
+// 'Poliwrath' ,
 
-'Ponyta' ,
+// 'Ponyta' ,
 
-'Primeape' ,
+// 'Primeape' ,
 
-'Psyduck' ,
+// 'Psyduck' ,
 
-'Raichu' ,
+// 'Raichu' ,
 
-'Rapidash' ,
+// 'Rapidash' ,
 
-'Raticate' ,
+// 'Raticate' ,
 
-'Rattata' ,
+// 'Rattata' ,
 
-'Sandshrew' ,
+// 'Sandshrew' ,
 
-'Sandslash' ,
+// 'Sandslash' ,
 
-'Seel' ,
+// 'Seel' ,
 
-'Slowbro' ,
+// 'Slowbro' ,
 
-'Slowpoke' ,
+// 'Slowpoke' ,
 
-'Spearow' ,
+// 'Spearow' ,
 
-'Squirtle' ,
+// 'Squirtle' ,
 
-'Tentacool' ,
+// 'Tentacool' ,
 
-'Tentacruel' ,
+// 'Tentacruel' ,
 
-'Venomoth' ,
+// 'Venomoth' ,
 
-'Venonat' ,
+// 'Venonat' ,
 
-'Venusaur' ,
+// 'Venusaur' ,
 
-'Victreebel' ,
+// 'Victreebel' ,
 
-'Vileplume' ,
+// 'Vileplume' ,
 
-'Vulpix' ,
+// 'Vulpix' ,
 
-'Wartortle' ,
+// 'Wartortle' ,
 
-'Weedle' ,
+// 'Weedle' ,
 
-'Weepinbell' ,
+// 'Weepinbell' ,
 
-'Wigglytuff' ,
+// 'Wigglytuff' ,
 
-'Zubat' ,
-]
+// 'Zubat' ,
+// ]
 
 
 

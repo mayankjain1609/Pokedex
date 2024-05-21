@@ -23,16 +23,20 @@ type PokemonCardProps = {
 
     }
 };
-// function toFirstLetterUpperCase(str: string) {
-//     if(str?.[0] !== undefined && str?.[0] >= 'a' && str?.[0] <= 'z') str[0] = str[0] + Number('A') - 'a';
-// }
 
 function capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 const PokemonCard = ({ data }: PokemonCardProps) => {
-    const { id, name, sprite, detailPageURL, types, weight, height } = data;
+    const { 
+        // id,
+        name,
+        sprite,
+        // detailPageURL,
+        types,
+        weight,
+        height } = data;
     return (
         <div className='flex flex-col card-main'>
             <div className='pok-name'>

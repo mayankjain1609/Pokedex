@@ -1,7 +1,9 @@
 "use client";
-import React, { useState } from 'react'
+import React, {
+    useState
+} from 'react'
 import TextField from '@mui/material/TextField';
-// import Button from '@mui/material/Button';
+
 import { api } from '~/trpc/react';
 import PokemonCard from './PokemonCard';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -21,9 +23,14 @@ const PokemonRow = () => {
     // }
 
     const { data, isError, isLoading } = api.pokemon.getPokemon.useQuery({ name: search }, { enabled: !!search });
-    // console.log("decedcrfcfgt" , api.pokemon.getByType.useQuery({type: "Electric"}));
-    // console.log("cdscsdcsdcdsvc" , data);
 
+
+    let pokemonNames = [""];
+
+
+    const resNames = api.pokemon.getAllPokemonNames.useQuery();
+    pokemonNames = resNames?.data ?? [];
+    const { isLoading: isLoadingAll, isError: isErrorAll } = resNames
 
 
 
@@ -44,13 +51,15 @@ const PokemonRow = () => {
                 options={pokemonNames}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label='Pokemon' />}
-           />
+            />
 
-           <div className=''>
-            {data?.id && <PokemonCard data={data} />}
-            {isLoading && <h1>....Loading ...</h1>}
-            {isError && <h1>Something went wrong ....</h1>}
-           </div>
+            <div className=''>
+                {data?.id && <PokemonCard data={data} />}
+                {isLoading && <h1>....Loading ...</h1>}
+                {isError && <h1>Something went wrong ....</h1>}
+                {isLoadingAll && <h1>....Loading Pokemon Name ...</h1>}
+                {isErrorAll && <h1>Something went wrong with fetching pokemons ....</h1>}
+            </div>
         </div>
 
     )
@@ -58,179 +67,179 @@ const PokemonRow = () => {
 
 export default PokemonRow
 
-const pokemonNames = [
-    'Abra',
+// const pokemonNames = [
+//     'Abra',
 
-    'Alakazam',
+//     'Alakazam',
 
-    'Arbok',
+//     'Arbok',
 
-    'Arcanine',
+//     'Arcanine',
 
-    'Beedrill',
+//     'Beedrill',
 
-    'Bellsprout',
+//     'Bellsprout',
 
-    'Blastoise',
+//     'Blastoise',
 
-    'Bulbasaur',
+//     'Bulbasaur',
 
-    'Butterfree',
+//     'Butterfree',
 
-    'Caterpie',
+//     'Caterpie',
 
-    'Charizard',
+//     'Charizard',
 
-    'Charmander',
+//     'Charmander',
 
-    'Charmeleon',
+//     'Charmeleon',
 
-    'Clefable',
+//     'Clefable',
 
-    'Clefairy',
+//     'Clefairy',
 
-    'Dewgong',
+//     'Dewgong',
 
-    'Diglett',
+//     'Diglett',
 
-    'Dodrio',
+//     'Dodrio',
 
-    'Doduo',
+//     'Doduo',
 
-    'Dugtrio',
+//     'Dugtrio',
 
-    'Ekans',
+//     'Ekans',
 
-    'Farfetch’d',
+//     'Farfetch’d',
 
-    'Fearow',
+//     'Fearow',
 
-    'Geodude',
+//     'Geodude',
 
-    'Gloom',
+//     'Gloom',
 
-    'Golbat',
+//     'Golbat',
 
-    'Golduck',
+//     'Golduck',
 
-    'Golem',
+//     'Golem',
 
-    'Graveler',
+//     'Graveler',
 
-    'Growlithe',
+//     'Growlithe',
 
-    'Ivysaur',
+//     'Ivysaur',
 
-    'Jigglypuff',
+//     'Jigglypuff',
 
-    'Kadabra',
+//     'Kadabra',
 
-    'Kakuna',
+//     'Kakuna',
 
-    'Machamp',
+//     'Machamp',
 
-    'Machoke',
+//     'Machoke',
 
-    'Machop',
+//     'Machop',
 
-    'Magnemite',
+//     'Magnemite',
 
-    'Magneton',
+//     'Magneton',
 
-    'Mankey',
+//     'Mankey',
 
-    'Meowth',
+//     'Meowth',
 
-    'Metapod',
+//     'Metapod',
 
-    'Nidoking',
+//     'Nidoking',
 
-    'Nidoqueen',
+//     'Nidoqueen',
 
-    'Nidoran♀',
+//     'Nidoran♀',
 
-    'Nidoran♂',
+//     'Nidoran♂',
 
-    'Nidorina',
+//     'Nidorina',
 
-    'Nidorino',
+//     'Nidorino',
 
-    'Ninetales',
+//     'Ninetales',
 
-    'Oddish',
+//     'Oddish',
 
-    'Paras',
+//     'Paras',
 
-    'Parasect',
+//     'Parasect',
 
-    'Persian',
+//     'Persian',
 
-    'Pidgeot',
+//     'Pidgeot',
 
-    'Pidgeotto',
+//     'Pidgeotto',
 
-    'Pidgey',
+//     'Pidgey',
 
-    'Pikachu',
+//     'Pikachu',
 
-    'Poliwag',
+//     'Poliwag',
 
-    'Poliwhirl',
+//     'Poliwhirl',
 
-    'Poliwrath',
+//     'Poliwrath',
 
-    'Ponyta',
+//     'Ponyta',
 
-    'Primeape',
+//     'Primeape',
 
-    'Psyduck',
+//     'Psyduck',
 
-    'Raichu',
+//     'Raichu',
 
-    'Rapidash',
+//     'Rapidash',
 
-    'Raticate',
+//     'Raticate',
 
-    'Rattata',
+//     'Rattata',
 
-    'Sandshrew',
+//     'Sandshrew',
 
-    'Sandslash',
+//     'Sandslash',
 
-    'Seel',
+//     'Seel',
 
-    'Slowbro',
+//     'Slowbro',
 
-    'Slowpoke',
+//     'Slowpoke',
 
-    'Spearow',
+//     'Spearow',
 
-    'Squirtle',
+//     'Squirtle',
 
-    'Tentacool',
+//     'Tentacool',
 
-    'Tentacruel',
+//     'Tentacruel',
 
-    'Venomoth',
+//     'Venomoth',
 
-    'Venonat',
+//     'Venonat',
 
-    'Venusaur',
+//     'Venusaur',
 
-    'Victreebel',
+//     'Victreebel',
 
-    'Vileplume',
+//     'Vileplume',
 
-    'Vulpix',
+//     'Vulpix',
 
-    'Wartortle',
+//     'Wartortle',
 
-    'Weedle',
+//     'Weedle',
 
-    'Weepinbell',
+//     'Weepinbell',
 
-    'Wigglytuff',
+//     'Wigglytuff',
 
-    'Zubat',
-]
+//     'Zubat',
+// ]
 

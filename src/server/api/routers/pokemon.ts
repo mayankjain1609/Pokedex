@@ -122,5 +122,26 @@ export const pokemonRouter = createTRPCRouter({
           message: "Something went wrong",
         });
       }
+    }),
+
+    getAllPokemonNames: publicProcedure
+    .query( async ({ctx}) => {
+      const data = await ctx.db.pokemon.findMany({
+        where: {name: {
+          notIn: []
+        }},
+        select:{
+          name: true,
+        }
+      })
+
+      const res = [""];
+      data.forEach(val => {
+        if(!res.includes(val.name)){
+          res.push(val.name);
+        }
+      })
+
+      return res;
     })
 });
