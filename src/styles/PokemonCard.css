@@ -1,0 +1,27 @@
+.card-main{
+    /* background-color: #645AA4; */
+    background-color: #98C8DE;
+    padding: 5%;
+    width: 15vw;
+    border-radius: 1rem;
+    font-family: 'Josephin Slob';
+}
+
+.pok-type{
+    list-style: none;
+    background-color: #B986D7;
+    padding: 3px;
+    margin: 1px;
+    border-radius: 0.25rem;
+    /* font-family: 'Josephin Slob'; */
+}
+
+.pok-p-name {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.small-title{
+    /* text-align: center; */
+    /* margin: auto; */
+}

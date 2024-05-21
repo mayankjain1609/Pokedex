@@ -5,9 +5,8 @@ import BasicsTab from "./_components/PokemonTabs"
 export default async function Home() {
 
   return (
-    <main>
+    <main className="flex justify-center">
       <BasicsTab />
-      
     </main>
   );
 }
