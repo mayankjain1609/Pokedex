@@ -11,20 +11,17 @@ export const metadata = {
 };
 
 
-
+<style>@import url(&apos;https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&family=Poppins&family=Roboto:wght@100;300;400;500;700;900&display=swap&apos;);</style>
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <>
-    <style>@import url(&apos;https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&family=Poppins&family=Roboto:wght@100;300;400;500;700;900&display=swap&apos;);</style>
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>
-    </>
   );
 }
